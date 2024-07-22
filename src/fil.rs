@@ -160,6 +160,14 @@ impl Object for Fil {
         self.last_update = Timestamp::now();
     }
 
+    fn get_date(&self) -> &Timestamp {
+        &self.last_update
+    }
+
+    fn set_date(&mut self, t: Timestamp) {
+        self.last_update = t;
+    }
+
     async fn buttons(ctx: &SerenityContext, interaction: &mut ComponentInteraction, bot: &mut Bot<Self>) -> Result<(), ErrType> {
         let parts: Vec<&str> = interaction.data.custom_id.split("-").collect();
         let button_type = *parts.get(0)
@@ -177,7 +185,7 @@ impl Object for Fil {
                             bot.database.get_mut(&id).unwrap().status = match action {
                                 "t" => Status::Termine,
                                 "v" => Status::Vote,
-                                "d" => Status::Discussion,
+                                "d" => Status::EnDev,
                                 _ => panic!() /* Impossible */
                             };
                             bot.database.get_mut(&id).unwrap().modified = true;
