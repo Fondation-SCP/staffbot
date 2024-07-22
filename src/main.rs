@@ -1,10 +1,11 @@
 use std::env;
 
-use maplit::hashmap;
-use serenity::all::GatewayIntents;
-
+use fondabots_lib::affichan::Affichan;
 use fondabots_lib::Bot;
+use maplit::hashmap;
+use serenity::all::{ChannelId, GatewayIntents};
 
+use crate::fil::fields::Status;
 use crate::fil::Fil;
 
 mod fil;
@@ -22,7 +23,9 @@ async fn main() {
             "./staffbot.yml",
             commands::command_list(),
             vec![
-
+                Affichan::new(ChannelId::new(1265001559373119493), Box::new(| fil | {
+                    fil.status == Status::Vote
+                }))
             ],
             hashmap! {
 
